@@ -1,0 +1,5 @@
+# —— Front-end (Angular) ——
+Front-end-project/.angular/
+Front-end-project/dist/
+Front-end-project/node_modules/
+Front-end-project/.vscode/
