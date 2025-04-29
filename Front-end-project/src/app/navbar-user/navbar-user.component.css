@@ -1,0 +1,155 @@
+/* Import Lexend font */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap');
+
+/* Apply Lexend font to all navbar text */
+.lexend-font {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  min-height: 70px;
+  background-image: url('../../assets/wavey-fingerprint.svg');
+  background-repeat: repeat;
+  background-size: 100px;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-blend-mode: screen;
+  position: relative;
+}
+
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+  z-index: 1;
+}
+
+.navbar > * {
+  position: relative;
+  z-index: 2;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.navbar-brand img {
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+  transform: scale(1.05);
+}
+
+/* Separator bar styles */
+.separator {
+  width: 2px;
+  height: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin: 0 1rem;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  transform: translateY(-2px);
+}
+
+.profile-dropdown {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  text-decoration: none !important;
+}
+
+.profile-dropdown:hover {
+  text-decoration: none !important;
+}
+
+.profile-dropdown img {
+  object-fit: cover;
+  border: 2px solid #fff;
+  transition: all 0.3s ease;
+}
+
+.profile-dropdown:hover img {
+  transform: scale(1.1);
+}
+
+.dropdown-menu {
+  min-width: 200px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+}
+
+.dropdown-item {
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(5px);
+}
+
+/* Date, Time and Weather styles */
+.weather-info {
+  display: flex;
+  align-items: center;
+}
+
+.weather-info i {
+  font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+  
+  .weather-info {
+    margin-top: 1rem;
+  }
+
+  .separator {
+    height: 20px;
+    margin: 0 0.5rem;
+  }
+}
+
+/* Chatbot positioning */
+app-chatbot {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Ensure the chatbot doesn't overlap with the navbar */
+@media (max-width: 768px) {
+  app-chatbot {
+    max-width: 100%;
+    bottom: 0;
+    right: 0;
+    border-radius: 0;
+  }
+}

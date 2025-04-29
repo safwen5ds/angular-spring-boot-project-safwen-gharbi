@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DocumentManagementApplication<document-management>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.saf.DocumentManagementApplication",
+            "projectName": "document-management",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

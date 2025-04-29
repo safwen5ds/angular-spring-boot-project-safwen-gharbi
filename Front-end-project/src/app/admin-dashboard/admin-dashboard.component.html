@@ -1,0 +1,214 @@
+<div class="container-fluid mt-4">
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ error }}
+    <button (click)="retryLoading()" class="retry-button">
+      <i class="fas fa-redo"></i> Retry
+    </button>
+  </div>
+
+  <div class="section">
+    <h2>Document Management</h2>
+    <button class="btn btn-primary" (click)="createEmptyDocument()">Add New Document</button>
+
+    <div class="form-container" *ngIf="showDocumentForm">
+      <h3>{{ isEditing ? 'Edit' : 'Add' }} Document</h3>
+      <form [formGroup]="documentForm" (ngSubmit)="isEditing ? submitDocumentUpdate() : createDocument()">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" formControlName="title" class="form-control" [ngClass]="{'is-invalid': documentForm.get('title')?.invalid && documentForm.get('title')?.touched}">
+          <div class="invalid-feedback" *ngIf="documentForm.get('title')?.invalid && documentForm.get('title')?.touched">
+            Title is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="author">Author</label>
+          <div class="search-container">
+            <input 
+              type="text" 
+              id="author" 
+              formControlName="author" 
+              class="form-control" 
+              [ngClass]="{'is-invalid': documentForm.get('author')?.invalid && documentForm.get('author')?.touched}"
+              placeholder="Search for an author..."
+              (input)="onAuthorSearch($event)"
+            >
+            <div class="search-results" *ngIf="filteredAuthors.length > 0">
+              <div class="search-item" *ngFor="let author of filteredAuthors" (click)="selectAuthor(author)">
+                {{ author.name }}
+              </div>
+            </div>
+            <div class="search-results" *ngIf="filteredAuthors.length === 0 && documentForm.get('author')?.value && documentForm.get('author')?.value.length > 1">
+              <div class="search-item no-results">
+                No authors found
+              </div>
+            </div>
+          </div>
+          <div class="invalid-feedback" *ngIf="documentForm.get('author')?.invalid && documentForm.get('author')?.touched">
+            Author is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="theme">Theme</label>
+          <select id="theme" formControlName="theme" class="form-control" [ngClass]="{'is-invalid': documentForm.get('theme')?.invalid && documentForm.get('theme')?.touched}">
+            <option value="">Select a theme</option>
+            <option *ngFor="let theme of themes" [value]="theme">{{ theme }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="documentForm.get('theme')?.invalid && documentForm.get('theme')?.touched">
+            Theme is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="summary">Summary</label>
+          <textarea id="summary" formControlName="summary" class="form-control" [ngClass]="{'is-invalid': documentForm.get('summary')?.invalid && documentForm.get('summary')?.touched}"></textarea>
+          <div class="invalid-feedback" *ngIf="documentForm.get('summary')?.invalid && documentForm.get('summary')?.touched">
+            Summary is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="keywords">Keywords (comma-separated)</label>
+          <input type="text" id="keywords" formControlName="keywords" class="form-control" [ngClass]="{'is-invalid': documentForm.get('keywords')?.invalid && documentForm.get('keywords')?.touched}">
+          <div class="invalid-feedback" *ngIf="documentForm.get('keywords')?.invalid && documentForm.get('keywords')?.touched">
+            Keywords are required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="publicationDate">Publication Date</label>
+          <input type="date" id="publicationDate" formControlName="publicationDate" class="form-control" [ngClass]="{'is-invalid': documentForm.get('publicationDate')?.invalid && documentForm.get('publicationDate')?.touched}">
+          <div class="invalid-feedback" *ngIf="documentForm.get('publicationDate')?.invalid && documentForm.get('publicationDate')?.touched">
+            Publication date is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="fileType">File Type</label>
+          <select id="fileType" formControlName="fileType" class="form-control" [ngClass]="{'is-invalid': documentForm.get('fileType')?.invalid && documentForm.get('fileType')?.touched}">
+            <option value="">Select a file type</option>
+            <option *ngFor="let type of fileTypes" [value]="type">{{ type }}</option>
+          </select>
+          <div class="invalid-feedback" *ngIf="documentForm.get('fileType')?.invalid && documentForm.get('fileType')?.touched">
+            File type is required
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="documentForm.invalid">{{ isEditing ? 'Update' : 'Create' }}</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Theme</th>
+            <th>Publication Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let doc of documents">
+            <td>{{ doc.title }}</td>
+            <td>{{ doc.author }}</td>
+            <td>{{ doc.theme }}</td>
+            <td>{{ doc.publicationDate | date }}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" (click)="editDocument(doc)">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteDocument(doc.id!)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="documents.length === 0">
+            <td colspan="5" class="text-center">No documents found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Author Management</h2>
+    <button class="btn btn-primary" (click)="createEmptyAuthor()">Add New Author</button>
+
+    <div class="form-container" *ngIf="showAuthorForm">
+      <h3>{{ isEditing ? 'Edit' : 'Add' }} Author</h3>
+      <form [formGroup]="authorForm" (ngSubmit)="isEditing ? submitAuthorUpdate() : createAuthor()">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" formControlName="name" class="form-control" [ngClass]="{'is-invalid': authorForm.get('name')?.invalid && authorForm.get('name')?.touched}">
+          <div class="invalid-feedback" *ngIf="authorForm.get('name')?.invalid && authorForm.get('name')?.touched">
+            Name is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" class="form-control" [ngClass]="{'is-invalid': authorForm.get('email')?.invalid && authorForm.get('email')?.touched}">
+          <div class="invalid-feedback" *ngIf="authorForm.get('email')?.invalid && authorForm.get('email')?.touched">
+            Valid email is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" formControlName="bio" class="form-control" [ngClass]="{'is-invalid': authorForm.get('bio')?.invalid && authorForm.get('bio')?.touched}"></textarea>
+          <div class="invalid-feedback" *ngIf="authorForm.get('bio')?.invalid && authorForm.get('bio')?.touched">
+            Bio is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="specialization">Specialization</label>
+          <input type="text" id="specialization" formControlName="specialization" class="form-control" [ngClass]="{'is-invalid': authorForm.get('specialization')?.invalid && authorForm.get('specialization')?.touched}">
+          <div class="invalid-feedback" *ngIf="authorForm.get('specialization')?.invalid && authorForm.get('specialization')?.touched">
+            Specialization is required
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="authorForm.invalid">{{ isEditing ? 'Update' : 'Create' }}</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Specialization</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let author of authors">
+            <td>{{ author.name }}</td>
+            <td>{{ author.email }}</td>
+            <td>{{ author.specialization }}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" (click)="editAuthor(author)">Edit</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteAuthor(author.id!)">Delete</button>
+            </td>
+          </tr>
+          <tr *ngIf="authors.length === 0">
+            <td colspan="4" class="text-center">No authors found</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

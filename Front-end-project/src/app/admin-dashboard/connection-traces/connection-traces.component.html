@@ -1,0 +1,57 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h2 class="mb-0 lexend-font">Connection Traces</h2>
+    </div>
+    <div class="card-body">
+      <div *ngIf="error" class="alert alert-danger lexend-font">
+        {{ error }}
+        <button class="btn btn-sm btn-outline-danger ms-2" (click)="retryLoading()">Retry</button>
+      </div>
+
+      <div *ngIf="isLoading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 lexend-font">Loading connection traces...</p>
+      </div>
+
+      <div *ngIf="!isLoading">
+        <div class="mb-4">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control lexend-font" 
+              placeholder="Search by email..." 
+              [(ngModel)]="searchTerm"
+              (input)="filterUsers()"
+            >
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th class="lexend-font">Email</th>
+                <th class="lexend-font">Last Login</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of filteredUsers">
+                <td class="lexend-font">{{ user.email }}</td>
+                <td class="lexend-font">{{ formatDate(user.lastLogin) }}</td>
+              </tr>
+              <tr *ngIf="filteredUsers.length === 0">
+                <td colspan="2" class="text-center lexend-font">No users found</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

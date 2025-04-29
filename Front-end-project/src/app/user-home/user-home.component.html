@@ -1,0 +1,203 @@
+<div class="container"> 
+  <div class="row">
+    <div class="col-12">
+      <div class="landing-gif-wrapper mb-4">
+        <img src="assets/Diapositive1.png" alt="Landing GIF" class="img-fluid landing-gif">
+      </div>
+      
+      <div *ngIf="error" class="alert alert-danger lexend-font">
+        {{ error }}
+        <button class="btn btn-sm btn-outline-danger ms-2" (click)="retryLoading()">Retry</button>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title lexend-font">Search and Filter</h5>
+          <form [formGroup]="searchForm" class="row g-3">
+            <div class="col-md-4">
+              <label for="searchQuery" class="form-label lexend-font">Search</label>
+              <input 
+                type="text" 
+                class="form-control lexend-font" 
+                id="searchQuery" 
+                placeholder="Search by title, summary, or keywords" 
+                formControlName="query"
+              >
+            </div>
+            <div class="col-md-4">
+              <label for="themeFilter" class="form-label lexend-font">Theme</label>
+              <select class="form-select lexend-font" id="themeFilter" formControlName="theme">
+                <option value="">All Themes</option>
+                <option *ngFor="let theme of themes" [value]="theme">{{ theme }}</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="fileTypeFilter" class="form-label lexend-font">File Type</label>
+              <select class="form-select lexend-font" id="fileTypeFilter" formControlName="fileType">
+                <option value="">All File Types</option>
+                <option *ngFor="let type of fileTypes" [value]="type">{{ type }}</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="authorFilter" class="form-label lexend-font">Author</label>
+              <div class="search-container">
+                <input 
+                  type="text" 
+                  class="form-control lexend-font" 
+                  id="authorFilter" 
+                  placeholder="Search for author..." 
+                  formControlName="author"
+                >
+                <div class="search-results" *ngIf="filteredAuthors.length > 0">
+                  <div class="search-item" 
+                       *ngFor="let author of filteredAuthors" 
+                       (click)="selectAuthor(author)">
+                    <div class="author-info">
+                      <span class="author-name">{{ author.name }}</span>
+                      <span class="author-email">{{ author.email }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="startDate" class="form-label lexend-font">Start Date</label>
+              <input type="date" class="form-control lexend-font" id="startDate" formControlName="startDate">
+            </div>
+            <div class="col-md-4">
+              <label for="endDate" class="form-label lexend-font">End Date</label>
+              <input type="date" class="form-control lexend-font" id="endDate" formControlName="endDate">
+            </div>
+            <div class="col-12">
+              <button type="button" class="btn btn-outline-secondary me-2" (click)="resetSearch()">
+                <i class="fas fa-undo me-1"></i> Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0 lexend-font">Documents</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 lexend-font">Loading documents...</p>
+          </div>
+          
+          <div *ngIf="!isLoading && documents">
+            <div *ngIf="documents.length === 0" class="text-center py-4">
+              <p class="text-muted lexend-font">No documents available.</p>
+            </div>
+            
+            <div *ngIf="documents.length > 0">
+              <div *ngIf="filterDocuments().length === 0" class="text-center py-4">
+                <p class="text-muted lexend-font">No documents found matching your criteria.</p>
+              </div>
+              
+              <div *ngIf="filterDocuments().length > 0" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div *ngFor="let doc of filterDocuments()" class="col">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title lexend-font">{{ doc.title }}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted lexend-font">By {{ getAuthorName(doc) }}</h6>
+                      <p class="card-text lexend-font">{{ doc.summary }}</p>
+                      <div class="mb-2">
+                        <span class="badge bg-primary me-1">{{ doc.theme }}</span>
+                        <span class="badge bg-secondary me-1">{{ doc.fileType }}</span>
+                        <span class="badge bg-info">{{ doc.publicationDate | date }}</span>
+                      </div>
+                      <div class="mb-2">
+                        <small class="text-muted lexend-font">Keywords: </small>
+                        <span *ngFor="let keyword of doc.keywords" class="badge bg-light text-dark me-1">{{ keyword }}</span>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <button class="btn btn-outline-primary me-2" (click)="openDocumentDetails(doc)">View Details</button>
+                      <button class="btn btn-outline-success" *ngIf="hasValidUrl(doc.fileUrl)" (click)="openDocumentUrl(doc.fileUrl || '')">
+                        <i class="fas fa-external-link-alt me-1"></i> Open
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="filterDocuments().length > 0 && totalPages > 1" class="d-flex justify-content-center mt-4">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <li class="page-item" [class.disabled]="currentPage === 1">
+                      <a class="page-link" href="#" (click)="onPageChange(currentPage - 1); $event.preventDefault()" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item" *ngFor="let page of totalPagesArray" [class.active]="page === currentPage">
+                      <a class="page-link" href="#" (click)="onPageChange(page); $event.preventDefault()">{{ page }}</a>
+                    </li>
+                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                      <a class="page-link" href="#" (click)="onPageChange(currentPage + 1); $event.preventDefault()" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+
+              <div *ngIf="filterDocuments().length > 0" class="text-center mt-2">
+                <small class="text-muted lexend-font">
+                  Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to {{ Math.min(currentPage * itemsPerPage, totalItems) }} of {{ totalItems }} documents
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal fade" [class.show]="showDocumentModal" [style.display]="showDocumentModal ? 'block' : 'none'" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title lexend-font" id="documentModalLabel" *ngIf="selectedDocument">{{ selectedDocument.title }}</h2>
+              <button type="button" class="btn-close" aria-label="Close" (click)="closeDocumentModal()"></button>
+            </div>
+            <div class="modal-body">
+              <div class="document-details" *ngIf="selectedDocument">
+                <div class="mb-3">
+                  <span class="badge bg-primary me-2">{{ selectedDocument.theme }}</span>
+                  <span class="badge bg-secondary me-2">{{ selectedDocument.fileType }}</span>
+                  <span class="badge bg-info">{{ selectedDocument.publicationDate | date }}</span>
+                </div>
+                <p class="lexend-font"><strong>Author:</strong> {{ getAuthorName(selectedDocument) }}</p>
+                <p class="lexend-font"><strong>Summary:</strong> {{ selectedDocument.summary }}</p>
+                <div class="mb-3">
+                  <strong class="lexend-font">Keywords:</strong>
+                  <span *ngFor="let keyword of selectedDocument.keywords" class="badge bg-light text-dark me-1">{{ keyword }}</span>
+                </div>
+                <div class="summary">
+                  <h3 class="lexend-font">Document Information</h3>
+                  <p class="lexend-font"><strong>File Type:</strong> {{ selectedDocument.fileType }}</p>
+                  <p class="lexend-font"><strong>Publication Date:</strong> {{ selectedDocument.publicationDate | date }}</p>
+                  <p class="lexend-font" *ngIf="selectedDocument && hasValidUrl(selectedDocument.fileUrl)">
+                    <strong>Document URL:</strong> 
+                    <a [href]="selectedDocument.fileUrl || ''" target="_blank" class="text-primary">{{ selectedDocument.fileUrl }}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary me-2" *ngIf="hasValidUrl(selectedDocument?.fileUrl)" (click)="openDocumentUrl(selectedDocument?.fileUrl || '')">
+                <i class="fas fa-external-link-alt me-1"></i> Open Document
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="closeDocumentModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-backdrop fade" [class.show]="showDocumentModal" *ngIf="showDocumentModal"></div>
+    </div>
+  </div>
+</div>

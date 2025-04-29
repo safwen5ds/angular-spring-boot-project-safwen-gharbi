@@ -1,0 +1,3 @@
+<app-navbar *ngIf="isAuthenticated && isAdmin"></app-navbar>
+<app-navbar-user *ngIf="isAuthenticated && !isAdmin"></app-navbar-user>
+<router-outlet></router-outlet>

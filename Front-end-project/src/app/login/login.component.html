@@ -1,0 +1,83 @@
+<!-- login.component.html -->
+<div class="login-container">
+  <div class="left-panel">
+    <div class="logo">
+      <img src="assets/logo.png" alt="IntraDoc Bizerte Logo">
+    </div>
+    
+    <div class="welcome-text">
+      <h1>IntraDoc Bizerte</h1>
+      <p>Research Unit Document Library</p>
+    </div>
+    
+    <div class="feature-boxes">
+      <div class="feature-box">
+        <h3>Document Repository</h3>
+        <p>Centralized storage for theses, articles, reports, and presentations produced by research unit members</p>
+      </div>
+      <div class="feature-box">
+        <h3>Easy Access</h3>
+        <p>Search documents by title, keyword, theme, or author without requiring individual user accounts</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="right-panel">
+    <div class="sign-in-header">
+      <h2>Login</h2>
+      <p>Access A Hub For All Research Unit Documents</p>
+    </div>
+    
+    <form (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="email" 
+          name="email" 
+          placeholder="your@email.com"
+          required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="password" 
+          name="password" 
+          placeholder="••••••••"
+          required>
+      </div>
+      
+      <button type="submit" class="sign-in-button">Sign In</button>
+    </form>
+    
+    <div class="divider">
+      <span>OR SIGN IN WITH GOOGLE</span>
+    </div>
+    
+    <div class="social-login">
+      <div class="g_id_signin">
+      </div>
+    </div>
+
+    
+    <div class="login-footer">
+      <p>Demo Accounts:</p>
+      <div class="credentials">
+        <div class="credential-item">
+          <span class="role">Admin:</span>
+          <span class="email">safwen@gmail.com</span>
+          <span class="password">azert</span>
+        </div>
+        <div class="credential-item">
+          <span class="role">User:</span>
+          <span class="email">user@gmail.com</span>
+          <span class="password">1234</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

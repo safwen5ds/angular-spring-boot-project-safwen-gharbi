@@ -1,0 +1,43 @@
+<div class="container mt-5"> 
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="text-center mb-4">
+            <img [src]="userPhoto" alt="Profile" class="rounded-circle profile-image mb-3">
+            <h2 class="card-title">{{ userName }}</h2>
+            <p class="text-muted">{{ userEmail }}</p>
+            <span class="badge" [ngClass]="isAdmin ? 'bg-danger' : 'bg-primary'">
+              {{ isAdmin ? 'Admin' : 'User' }}
+            </span>
+          </div>
+          
+          <div class="row mt-4">
+            <div class="col-md-6 mx-auto"> 
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Account Information</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Email:</span>
+                      <span class="text-muted">{{ userEmail }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Name:</span>
+                      <span class="text-muted">{{ userName }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                      <span>Role:</span>
+                      <span class="text-muted">{{ isAdmin ? 'Administrator' : 'Regular User' }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div> 
+          </div> 
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

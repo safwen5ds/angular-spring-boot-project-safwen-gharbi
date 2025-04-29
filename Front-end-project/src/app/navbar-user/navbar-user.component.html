@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+  <div class="container">
+    <a class="navbar-brand fs-4 d-flex align-items-center" href="#">
+      <img src="assets/logo.png" alt="IntraDoc Bizerte Logo" class="me-2" style="height: 60px;">
+      <div class="separator"></div>
+      <span class="lexend-font">IntraDoc Bizerte</span>
+    </a>
+    
+    <div class="d-flex align-items-center text-light me-auto ms-4 lexend-font">
+      <div class="me-4">
+        <i class="fas fa-calendar-alt me-2"></i>
+        <span>{{ currentDate | date:'EEEE, MMMM d, y' }}</span>
+      </div>
+      <div class="me-4">
+        <i class="fas fa-clock me-2"></i>
+        <span>{{ currentTime | date:'h:mm:ss a' }}</span>
+      </div>
+      <div class="weather-info">
+        <i class="fas fa-cloud-sun me-2"></i>
+        <span>{{ weatherInfo }}</span>
+      </div>
+    </div>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="d-flex align-items-center ms-auto">
+        <button class="btn btn-outline-light me-3 lexend-font" (click)="toggleChatbot()">
+          <i class="fas fa-robot me-2"></i>Chat Assistant
+        </button>
+        
+        <div class="dropdown">
+          <button class="btn btn-link dropdown-toggle text-light profile-dropdown fs-6 lexend-font" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <img [src]="userPhoto" alt="Profile" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+            {{ userName }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item lexend-font" (click)="goToProfile()">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item lexend-font" (click)="logout()">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<app-chatbot *ngIf="showChatbot" [documents]="documents"></app-chatbot>

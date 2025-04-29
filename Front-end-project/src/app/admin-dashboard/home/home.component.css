@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary: #4361ee;
+  --primary-light: #eef2ff;
+  --success: #38b000;
+  --success-light: #e9f7ef;
+  --dark: #1e293b;
+  --secondary: #64748b;
+  --light: #f8fafc;
+  --border-radius: 12px;
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Bebas Neue', sans-serif;
+  font-weight: 600;
+  color: var(--dark);
+  background-color: #f8fafc;
+}
+
+.dashboard-container {
+  max-width: 1320px;
+}
+
+.header h1 {
+  color: var(--primary);
+  position: relative;
+  display: inline-block;
+}
+
+.header h1:after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary);
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.main-card {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06) !important;
+  transition: var(--transition);
+}
+
+.main-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08) !important;
+}
+
+.visualization-area {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.visualization-container {
+  min-height: 340px;
+  background-color: var(--light);
+}
+
+.overlay-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(67, 97, 238, 0.05), transparent);
+  pointer-events: none;
+}
+
+.stats-panel {
+  background-color: var(--light);
+}
+
+.stat-card {
+  transition: var(--transition);
+  padding: 16px;
+  border-radius: var(--border-radius);
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+}
+
+.stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+}
+
+.bg-primary-subtle {
+  background-color: var(--primary-light);
+}
+
+.bg-success-subtle {
+  background-color: var(--success-light);
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.quick-stat-card {
+  transition: var(--transition);
+}
+
+.quick-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06) !important;
+}
+
+@media (max-width: 991.98px) {
+  .visualization-area {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .visualization-container {
+    min-height: 300px;
+  }
+}

@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap');
+
+.container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  background-image: url('/assets/wavey-fingerprint.svg');
+  background-repeat: repeat;
+  background-size: auto;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-blend-mode: screen;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.alert {
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-container {
+  margin-bottom: 2rem;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.card-title {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+}
+
+.table-responsive {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  border-bottom: 2px solid #dee2e6;
+  color: #2c3e50;
+}
+
+.table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.btn {
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #F4CE14;
+  border: none;
+  color: #000;
+}
+
+.btn-primary:hover {
+  background-color: #e0b900;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #495E57;
+  border: none;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #3a4a44;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #bb2d3b;
+  transform: translateY(-2px);
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.d-flex.justify-content-end {
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+  
+  .table-responsive {
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  
+  .d-flex.justify-content-end {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.loading-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: 2rem;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.loading-spinner-container p {
+  color: #666;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+}
+
+.specialization-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item:last-child {
+  border-bottom: none;
+}

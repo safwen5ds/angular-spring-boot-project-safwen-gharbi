@@ -1,0 +1,30 @@
+<div class="chat-container">
+  <div class="chat-messages" #chatMessages>
+    <div *ngFor="let message of messages" [class]="'message ' + message.role">
+      <div class="message-content">
+        {{ message.content }}
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="message assistant">
+      <div class="message-content">
+        <div class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="chat-input">
+    <input
+      type="text"
+      [(ngModel)]="userInput"
+      (keyup.enter)="sendMessage()"
+      placeholder="Type your message..."
+      [disabled]="isLoading"
+    />
+    <button (click)="sendMessage()" [disabled]="isLoading || !userInput.trim()">
+      Send
+    </button>
+  </div>
+</div> 
