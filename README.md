@@ -21,7 +21,7 @@ Ce projet est une application full-stack construite avec Angular pour le fronten
   - Spring Security
   - Authentification JWT
 - **Base de Données**:
-  - (Spécifiez votre base de données ici, par exemple, MySQL, PostgreSQL)
+  - PostgreSQL 16.8 (hébergé sur Aiven Cloud Storage)
 
 ## Instructions d'Installation
 1. **Cloner le Dépôt**:
@@ -52,9 +52,3 @@ Ce projet est une application full-stack construite avec Angular pour le fronten
 - **Connexion**: Utilisez la page de connexion pour vous authentifier.
 - **Tableau de Bord Administrateur**: Accédez au tableau de bord pour gérer les documents et les auteurs.
 - **Accueil Utilisateur**: Les utilisateurs réguliers peuvent consulter et gérer leurs documents.
-
-## Contribution
-Les contributions sont les bienvenues ! Veuillez ouvrir une issue ou soumettre une pull request.
-
-## Licence
-Ce projet est sous licence MIT - voir le fichier LICENSE pour plus de détails. 
