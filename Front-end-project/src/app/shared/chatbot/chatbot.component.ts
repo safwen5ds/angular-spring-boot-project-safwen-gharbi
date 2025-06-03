@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { GoogleGenAI } from '@google/genai';
+import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Document } from '../../shared/models/document.model';
@@ -26,7 +27,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
   constructor(private cdr: ChangeDetectorRef) {
     this.ai = new GoogleGenAI({
-      apiKey: 'AIzaSyCqQ5zoX8Peo_ed29hZgIFw64gUX4MC0Y4'
+      apiKey: environment.googleApiKey
     });
   }
 

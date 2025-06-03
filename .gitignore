@@ -3,3 +3,5 @@ Front-end-project/.angular/
 Front-end-project/dist/
 Front-end-project/node_modules/
 Front-end-project/.vscode/
+Back-end-project/target/
+Back-end-project/logs/

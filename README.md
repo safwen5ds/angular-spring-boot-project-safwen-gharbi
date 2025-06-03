@@ -34,13 +34,17 @@ Ce projet est une application full-stack construite avec Angular pour le fronten
    ```bash
    cd Front-end-project
    npm install
-   ng serve
+   NG_APP_GOOGLE_API_KEY=<api-key> ng serve
    ```
 
 3. **Configuration du Backend**:
    ```bash
    cd Back-end-project
    mvn clean install
+   DB_URL=<jdbc-url> \
+   DB_USERNAME=<db-user> \
+   DB_PASSWORD=<db-pass> \
+   JWT_SECRET=<secret> \
    mvn spring-boot:run
    ```
 
