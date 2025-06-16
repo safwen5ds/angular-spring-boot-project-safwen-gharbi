@@ -26,7 +26,7 @@ export class ChatbotComponent implements OnInit, OnDestroy {
 
   constructor(private cdr: ChangeDetectorRef) {
     this.ai = new GoogleGenAI({
-      apiKey: 'AIzaSyCqQ5zoX8Peo_ed29hZgIFw64gUX4MC0Y4'
+      apiKey: 'MY_API_KEY 🙂'
     });
   }
 
